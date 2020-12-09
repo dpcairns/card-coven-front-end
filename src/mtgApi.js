@@ -49,6 +49,7 @@ export async function fetchAllCards(type, mana, subtype, set, page) {
 
     try {
         return await request
+        // wondering if it would have been better to stitch data together with &= stuff here in this function, instead of assuming it gets sent along with the &= punctuation already included. This makese the function signature tougher to understand.
             .get(`${MTGURL}?&pageSize=${PER_PAGE}&page=${page}${subtype}${type}${mana}${set}`)
     } catch (e) {
         return {
@@ -157,7 +158,7 @@ export async function deleteDeck(deckId, token) {
 export async function fetchByType(page, type) {
     try {
         return await request
-            .get(`https://api.magicthegathering.io/v1/cards?types=${type}&pageSize=${PER_PAGE}&page=${page}`)
+            .get(`${MTGURL}?types=${type}&pageSize=${PER_PAGE}&page=${page}`)
     } catch (e) {
         return {
             error: e.message
@@ -168,7 +169,7 @@ export async function fetchByType(page, type) {
 export async function fetchBySubType(page, type) {
     try {
         return await request
-            .get(`https://api.magicthegathering.io/v1/cards?subtypes=${type}&pageSize=${PER_PAGE}&page=${page}`)
+            .get(`${MTGURL}?subtypes=${type}&pageSize=${PER_PAGE}&page=${page}`)
     } catch (e) {
         return {
             error: e.message
@@ -179,7 +180,7 @@ export async function fetchBySubType(page, type) {
 export async function fetchByMana(page, type) {
     try {
         return await request
-            .get(`https://api.magicthegathering.io/v1/cards?colors=${type}&pageSize=20&page=${page}`)
+            .get(`${MTGURL}?colors=${type}&pageSize=20&page=${page}`)
     } catch (e) {
         return {
             error: e.message
@@ -220,6 +221,8 @@ export function manaToString(array) {
     }
     return string
 }
+
+// seems like this should live in an endpoint/database somewhere, since this data will change regularly
 export const sets = [
     'Limited Edition Alpha',
     'Limited Edition Beta',

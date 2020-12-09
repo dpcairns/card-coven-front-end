@@ -31,12 +31,7 @@ export default class App extends Component {
   }
 
   logout = () => {
-    localStorage.setItem(USERNAME, '');
-    localStorage.setItem(TOKEN, '');
-    this.setState({
-      userName: '',
-      token: ''
-    });
+    this.handleTokenUserChange('', '')
   }
 
   render() {
@@ -48,7 +43,10 @@ export default class App extends Component {
             token={this.state.token}
             logout={this.logout} />
           <Switch>
-            <Route exact path='/' render={(routerProps) => <Login
+            <Route 
+              exact 
+              path='/' 
+              render={(routerProps) => <Login
               handleTokenUserChange={this.handleTokenUserChange}
               {...routerProps} />}
             />
@@ -61,7 +59,7 @@ export default class App extends Component {
                 token={this.state.token} {...routerProps} />}
             />
             <Route
-              exact path='/aboutUS'
+              exact path='/aboutUS' // kind of weird capitalization
               render={(routerProps) => <AboutUs
                 handleTokenUserChange={this.handleTokenUserChange}
                 {...routerProps} />}

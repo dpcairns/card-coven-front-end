@@ -44,6 +44,7 @@ export default class App extends Component {
         return (
             <div className='App' style={{ padding: 50 }}>
                 <h3 className='about-us-title'>About Us</h3>
+                {/* nice spread syntax! */}
                 <Slider className='carousel-img' {...settings}>
                     {photos.map(photo => {
                         return (
@@ -53,33 +54,18 @@ export default class App extends Component {
                         )
                     })}
                 </Slider>
-                <div className='about-us-list-container'>
-                    <div className='about-us-names about-us-title'>Donny's Pages
-                        <a className='about-us-links' href="https://www.linkedin.com/in/donnylvu/" target="blank">LinkedIn</a>
-                        <a className='about-us-links' href="https://github.com/DonnyLVu" target="blank">Github</a>
+                {/* would have liked to see you store this data in json, then map over it like you did with the photos */}
+                {
+                    aboutData.map(person => 
+                    <div className='about-us-list-container'>
+                    <div className='about-us-names about-us-title'>{person.title}
+                        <a className='about-us-links' href={person.linkedin} target="blank">LinkedIn</a>
+                        <a className='about-us-links' href={person.github} target="blank">Github</a>
                     </div>
-                </div>
-                <br />
-                <div className='about-us-list-container'>
-                    <div className='about-us-names about-us-title'>Justin's Pages
-                        <a className='about-us-links' href="https://www.linkedin.com/in/justin-martin7x/" target="blank">LinkedIn</a>
-                        <a className='about-us-links' href="https://github.com/JustinMartin7x" target="blank">Github</a>
-                    </div>
-                </div>
-                <br />
-                <div className='about-us-list-container'>
-                    <div className='about-us-names about-us-title'>David's Pages
-                        <a className='about-us-links' href="https://www.linkedin.com/in/david-arron-butler/" target="blank">LinkedIn</a>
-                        <a className='about-us-links' href="https://github.com/davidabutler92" target="blank">Github</a>
-                    </div>
-                </div>
-                <br />
-                <div className='about-us-list-container'>
-                    <div className='about-us-names about-us-title'>Jonathan's Pages
-                        <a className='about-us-links' href="https://www.linkedin.com/in/Quesada-Jonathan" target="blank">LinkedIn</a>
-                        <a className='about-us-links' href="https://github.com/QuesadaJon" target="blank">Github</a>
-                    </div>
-                </div>
+                 </div>)
+                }
+  
+
             </div>
         );
     }

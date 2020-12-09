@@ -35,6 +35,7 @@ export default class NewDeck extends Component {
                         <label>New Deck Name<br></br>
                             <input
                                 required
+                                // nice inline function!
                                 onChange={(e) => this.setState({ new_deck: e.target.value })}
                                 type='text'
                             ></input>

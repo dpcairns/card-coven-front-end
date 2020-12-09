@@ -8,7 +8,18 @@ import red from './images/red1-mana.png'
 import white from './images/white1-mana.png'
 import './images/white-mana.png'
 
-
+class SomeLabelComponent extends Component {
+    render() {
+        const { color, manaState, handleManaOptions } = this.props;
+        <span>
+        <label className="label" >
+            <img style={{ filter: manaState.includes(color) && 'drop-shadow(2px 2px 8px white)' }} className="mana-img" src={black} alt={color} />
+            <p>{color}</p>
+            <input className="check-box" onClick={handleManaOptions} type="checkbox" value={color} />
+        </label>
+    </span>
+    }
+    }
 export default class LeftDrawer extends Component {
     render() {
         return (
@@ -16,6 +27,7 @@ export default class LeftDrawer extends Component {
                 <div className="selectors-div">
                     <div className="type-div">
                         <p>Sort by Type: </p>
+                        {/* these selects look like they could probably also be abstracted out into reusable components */}
                         <select className="type-select" onChange={this.props.handleTypeChange}>
                             <option></option>
                             {
@@ -48,48 +60,19 @@ export default class LeftDrawer extends Component {
                 </div>
                 <div className="mana-form">
                     <p>Sort by Mana Types</p>
-                    <span>
-                        <label className="label" >
-                            <img style={{ filter: this.props.manaState.includes('Black') && 'drop-shadow(2px 2px 8px white)' }} className="mana-img" src={black} alt='Black' />
-                            <p>Black</p>
-                            <input className="check-box" onClick={this.props.handleManaOptions} type="checkbox" value="Black" />
-                        </label>
-                    </span>
-                    <span>
-                        <label className="label" >
-                            <img style={{ filter: this.props.manaState.includes('Red') && 'drop-shadow(2px 2px 8px rgb(245, 88, 88))' }} className="mana-img" src={red} alt='Red' />
-                            <p>Red</p>
-                            <input className="check-box" onClick={this.props.handleManaOptions} type="checkbox" value="Red" />
-                        </label>
-                    </span>
-                    <span>
-                        <label className="label" >
-                            <img style={{ filter: this.props.manaState.includes('Blue') && 'drop-shadow(2px 2px 8px rgb(65, 140, 253))' }} className="mana-img" src={blue} alt='blue' />
-                            <p>Blue</p>
-                            <input className="check-box" onClick={this.props.handleManaOptions} type="checkbox" value="Blue" />
-                        </label>
-                    </span>
-                    <span>
-                        <label className="label" >
-                            <img style=
-                                {
-                                    {
-                                        filter: this.props.manaState.includes('Green') && 'drop-shadow(2px 2px 8px lightgreen)'
-                                    }
-                                }
-                                className="mana-img"
-                                src={green} alt='blue' />
-                            <p>Green</p>
-                            <input className="check-box" onClick={this.props.handleManaOptions} type="checkbox" value="Green" />
-                        </label>
-                    </span>
-                    <span>
-                        <label className="label" >
-                            <img style={{ filter: this.props.manaState.includes('White') && 'drop-shadow(2px 2px 10px white)' }} className="mana-img" src={white} alt='White' />
-                            <p>White</p>
-                            <input className="check-box" onClick={this.props.handleManaOptions} type="checkbox" value="White" />
-                        </label>
-                    </span>
+                    {
+                        [
+                        'Black', 
+                        'Red', 
+                        'Green', 
+                        'White', 
+                        'Blue',
+                        ].map(color => <SomeLabelComponent
+                            color={color} 
+                            onClick={this.props.handleManaOptions}
+                            manaState={this.props.manaState} />
+    )
+                    }
                     <div className="form-button">
                         <button onClick={this.props.handleSubmit}>Search</button>
                     </div>

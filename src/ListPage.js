@@ -77,12 +77,14 @@ export default class ListPage extends Component {
     }
     handleManaOptions = async (e) => {
         const mana = this.state.mana
+        // nice bit of logic here
         if (!this.state.mana.includes(e.target.value)) {
             mana.push(e.target.value)
             await this.setState({
                 mana: mana
             })
         } else {
+            // cool filter!
             const filteredMana = mana.filter(item => item !== e.target.value)
             await this.setState({
                 mana: filteredMana

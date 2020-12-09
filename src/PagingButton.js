@@ -8,6 +8,7 @@ export default function PagingButton({ handlePaging, count, page }) {
   return (
     <>
     <div className='pagingDiv'>
+    {/* nice disabling logic! */}
       <button className='button' disabled={page === 1} onClick={handlePaging.prev}>prev</button>
       <span className='pagingSpan'>Page {page}</span>
       <button className='button' disabled={totalPages === page}onClick={handlePaging.next}>next</button>

@@ -11,11 +11,20 @@ export default class DeckPage extends Component {
         cards_in_deck: '',
     }
 
-    componentDidMount = async () => {
+    // kind of a lot of repeated code in these methods, but probably okay, since all the methods are doing something so different that it would be hard to abstract away the common threads. here's an ugly starting point for managing the shared loading logic this with callbacks
+
+    setSpinnersAndFetch = async (fetchCallback) => {
         this.setState({ loading: true })
-        const response = await fetchDecks(this.props.token)
-        await this.setState({ decks: response.body, loading: false })
+        await fetchCallback();
         this.setState({ loading: false })
+
+    }
+
+    componentDidMount = async () => {
+        await this.setSpinnersAndFetch(async () => {
+            const response = await fetchDecks(this.props.token)
+            await this.setState({ decks: response.body, loading: false })
+        })
     }
 
     handleClick = async (e) => {
@@ -23,6 +32,20 @@ export default class DeckPage extends Component {
         const response = await fetchCards(Number(e.target.value), this.props.token)
         this.setState({ deck_id: e.target.value })
         await this.setState({ cards: response.body, loading: false })
+    }
+
+    handleCardsDelete = async (e)  => {
+        this.setState({ loading: true})
+        await deleteDecksCards(Number(e.target.value), this.props.token)
+        const response = await fetchCards(this.state.deck_id, this.props.token);
+        this.setState({ cards: response.body, loading: false })
+    }
+
+    handleCardDelete = async (e)  => {
+        this.setState({ loading: true})
+        await deleteCardFromDeck(Number(e.target.value), this.props.token)
+        const response = await fetchCards(this.state.deck_id, this.props.token)
+        this.setState({ cards: response.body })
     }
 
     handleDeckDelete = async (e) => {
@@ -33,19 +56,7 @@ export default class DeckPage extends Component {
         this.setState({ decks: response.body })
     }
     
-    handleCardsDelete = async (e)  => {
-        this.setState({ loading: true})
-        await deleteDecksCards(Number(e.target.value), this.props.token)
-        const response = await fetchCards(this.state.deck_id, this.props.token);
-        this.setState({ cards: response.body })
-    }
 
-    handleCardDelete = async (e)  => {
-        this.setState({ loading: true})
-        await deleteCardFromDeck(Number(e.target.value), this.props.token)
-        const response = await fetchCards(this.state.deck_id, this.props.token)
-        this.setState({ cards: response.body })
-    }
 
     render() {
         return (
@@ -88,7 +99,7 @@ export default class DeckPage extends Component {
                                         <img
                                             alt={card.name}
                                             src={card.img_url}
-                                            key={card.name + card.id + Math.random()}
+                                            key={`${card.name}${card.id}${Math.random()}`}
                                             className='deck-page-card-img'
                                         />
                                     </div>
